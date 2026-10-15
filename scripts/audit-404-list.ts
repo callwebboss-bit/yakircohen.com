@@ -26,6 +26,7 @@ import {
   GONE_EXACT_PATHS,
   GONE_PATH_PREFIXES,
   getLegacyRedirects,
+  waybackEquivalent,
 } from "../lib/legacy-redirects";
 import { getAllBlogSlugs } from "../lib/data/blog-slugs";
 
@@ -159,7 +160,8 @@ for (const rawLine of lines) {
   } else if (
     routes.has(p) ||
     staticSources.has(p) ||
-    patternRegexes.some((re) => re.test(p))
+    patternRegexes.some((re) => re.test(p)) ||
+    waybackEquivalent(p) !== null
   ) {
     handled.push(p);
   } else {

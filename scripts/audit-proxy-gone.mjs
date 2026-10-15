@@ -63,6 +63,9 @@ function matcherPaths(text) {
 const prefixes = listConst(stripComments(legacy), "GONE_PATH_PREFIXES");
 const exacts = listConst(stripComments(legacy), "GONE_EXACT_PATHS");
 const matcher = matcherPaths(stripComments(proxy));
+/* נתיבים שה-proxy מפנה (308) ולא מוחק (410): נתיבי השנה ונתיבים שמתחילים בעברית */
+const years = listConst(stripComments(legacy), "PROXY_YEAR_PREFIXES");
+const HEBREW_MATCHER = "/:path((?:%[Dd]7|[א-ת]).*)";
 
 const errors = [];
 if (!prefixes) errors.push("GONE_PATH_PREFIXES not found in lib/legacy-redirects.ts");
@@ -83,7 +86,22 @@ if (prefixes && exacts && matcher) {
     }
   }
 
-  const known = new Set([...prefixes.map((p) => `${p}/:path*`), ...exacts]);
+  if (!years) errors.push("PROXY_YEAR_PREFIXES not found in lib/legacy-redirects.ts");
+  const yearEntries = (years ?? []).map((p) => `${p}/:path*`);
+  for (const entry of [...yearEntries, HEBREW_MATCHER]) {
+    if (!matcherSet.has(entry)) errors.push(`redirect matcher "${entry}" missing from proxy.ts`);
+  }
+  /* הפניה קבועה של כל השנה רצה לפני ה-proxy ומסתירה את WAYBACK_PROXY_PAIRS בשקט */
+  for (const entry of yearEntries) {
+    const asSource = new RegExp(`source:\\s*"${escapeRe(entry)}"`);
+    for (const { rel, text } of REDIRECT_SOURCE_FILES) {
+      if (asSource.test(stripComments(text))) {
+        errors.push(`"${entry}" is a static redirect in ${rel} -- it runs before the proxy and hides the Wayback map`);
+      }
+    }
+  }
+
+  const known = new Set([...prefixes.map((p) => `${p}/:path*`), ...exacts, ...yearEntries, HEBREW_MATCHER]);
   for (const entry of matcher) {
     if (!known.has(entry)) {
       errors.push(`proxy.ts matcher has "${entry}" with no entry in the gone lists`);
@@ -109,6 +127,9 @@ if (prefixes && exacts && matcher) {
   /* בלי זה, מחיקת בלוק ה-410 כולו מ-proxy.ts משאירה את האודיט ירוק */
   if (!/status:\s*410/.test(proxy)) {
     errors.push("proxy.ts no longer returns status 410 anywhere");
+  }
+  if (!/waybackEquivalent\(/.test(proxy)) {
+    errors.push("proxy.ts no longer calls waybackEquivalent");
   }
   if (!/GONE_PATH_PREFIXES/.test(proxy) || !/GONE_EXACT_PATHS/.test(proxy)) {
     errors.push("proxy.ts no longer reads the gone lists");

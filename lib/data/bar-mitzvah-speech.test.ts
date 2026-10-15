@@ -24,7 +24,9 @@ describe("bar mitzvah speech guide", () => {
       assert.ok(hit, old);
       assert.match(hit.destination, /\/blog\/bar-mitzvah-speech$/, old);
     }
-    assert.ok(sources.indexOf("/2022/05/17/דרשה-לבר-מצווה-קצר-ולעניין") < sources.indexOf("/2022/:path*"));
+    /* נתיבי השנה עברו ל-proxy (15.10.2026), וההפניה הקבועה עם התאריך רצה לפניו */
+    assert.ok(sources.indexOf("/2022/05/17/דרשה-לבר-מצווה-קצר-ולעניין") >= 0);
+    assert.equal(sources.indexOf("/2022/:path*"), -1);
   });
 
   it("the two speech-recording URLs from D57 go to the guide, the dated one before /2019", () => {
@@ -37,7 +39,8 @@ describe("bar mitzvah speech guide", () => {
       assert.match(hit.destination, /\/blog\/bar-mitzvah-speech$/, old);
     }
     const dated = sources.indexOf("/2019/11/26/הקלטת-דרשה-לבר-מצווה");
-    assert.ok(dated >= 0 && dated < sources.indexOf("/2019/:path*"));
+    /* נתיבי השנה עברו ל-proxy (15.10.2026), וההפניה הקבועה עם התאריך רצה לפניו */
+    assert.ok(dated >= 0 && sources.indexOf("/2019/:path*") === -1);
   });
 
   it("the guide links to the recording service and puts the owner's video on top", () => {

@@ -1,6 +1,12 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import { GONE_EXACT_PATHS, GONE_PATH_PREFIXES, clearCartQuery, goneEquivalent } from "@/lib/legacy-redirects";
+import {
+  GONE_EXACT_PATHS,
+  GONE_PATH_PREFIXES,
+  clearCartQuery,
+  goneEquivalent,
+  waybackEquivalent,
+} from "@/lib/legacy-redirects";
 
 /**
  * `410 Gone` לשרידי WooCommerce ו-WordPress.
@@ -37,6 +43,14 @@ export function proxy(req: NextRequest) {
   const equivalent = goneEquivalent(clean);
   if (equivalent) {
     target.pathname = equivalent;
+    target.search = "";
+    return NextResponse.redirect(target, 308);
+  }
+
+  /* כתובת ישנה מהארכיון, או נתיב שנה של WordPress (אל /blog). ראו WAYBACK_PROXY_PAIRS. */
+  const wayback = waybackEquivalent(clean);
+  if (wayback) {
+    target.pathname = wayback;
     target.search = "";
     return NextResponse.redirect(target, 308);
   }
@@ -90,6 +104,18 @@ export const config = {
     "/xmlrpc.php",
     "/index.aspx",
     "/main.asp",
+    /* הפניות ולא 410: נתיבי השנה (PROXY_YEAR_PREFIXES), ונתיב שמתחיל באות עברית,
+       מקודדת (%D7 או %d7) או לא. נתיב עברי שיש לו הפניה קבועה לא מגיע לכאן, כי
+       redirects רצים לפני ה-proxy. ראו WAYBACK_PROXY_PAIRS ב-lib/legacy-redirects.ts. */
+    "/2017/:path*",
+    "/2018/:path*",
+    "/2019/:path*",
+    "/2020/:path*",
+    "/2021/:path*",
+    "/2022/:path*",
+    "/2023/:path*",
+    "/2024/:path*",
+    "/:path((?:%[Dd]7|[א-ת]).*)",
     /* כל נתיב, אבל רק כשיש בו ?add-to-cart=. תנאי has ב-matcher מתועד ב-
        node_modules/next/dist/docs/01-app/03-api-reference/03-file-conventions/proxy.md:101.
        בלי ה-has ה-proxy היה רץ על כל בקשה באתר. */

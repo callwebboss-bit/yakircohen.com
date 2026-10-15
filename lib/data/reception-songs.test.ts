@@ -24,6 +24,8 @@ describe("reception songs", () => {
       assert.match(hit.destination, /\/blog\/reception-songs$/, old);
     }
     const sources = redirects.map((r) => bare(r.source));
-    assert.ok(sources.indexOf("/2019/11/05/שירים-לקבלת-פנים") < sources.indexOf("/2019/:path*"));
+    /* נתיבי השנה עברו ל-proxy (15.10.2026), וההפניה הקבועה עם התאריך רצה לפניו */
+    assert.ok(sources.indexOf("/2019/11/05/שירים-לקבלת-פנים") >= 0);
+    assert.equal(sources.indexOf("/2019/:path*"), -1);
   });
 });

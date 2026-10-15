@@ -44,7 +44,8 @@ describe("wedding slow songs", () => {
     }
   });
 
-  it("dated slow songs URLs come before the /2019 and /2021 catch-alls", () => {
+  it("dated slow songs URLs are static redirects, with no static /2019 or /2021 catch-all", () => {
+    /* נתיבי השנה עברו ל-proxy (15.10.2026), וההפניה הקבועה עם התאריך רצה לפניו */
     const sources = getLegacyRedirects().map((r) => decodeURI(r.source).replace(/\{\/\}\?$/, ""));
     for (const [dated, catchAll] of [
       ["/2019/11/05/שירי-סלואו-לחתונה", "/2019/:path*"],
@@ -52,7 +53,7 @@ describe("wedding slow songs", () => {
     ]) {
       const at = sources.indexOf(dated);
       const all = sources.indexOf(catchAll);
-      assert.ok(at >= 0 && all >= 0 && at < all, dated);
+      assert.ok(at >= 0 && all === -1, dated);
     }
   });
 });

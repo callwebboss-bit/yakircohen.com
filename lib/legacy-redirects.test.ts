@@ -6,7 +6,9 @@ import {
   clearCartQuery,
   getLegacyRedirects,
   goneEquivalent,
+  PROXY_YEAR_PREFIXES,
   toNextSource,
+  waybackEquivalent,
   withOptionalTrailingSlash,
 } from "@/lib/legacy-redirects";
 
@@ -121,13 +123,14 @@ describe("legacy redirects: Hebrew sources (ED-01)", () => {
     }
   });
 
-  it("dated bat mitzvah URLs come before the /2021 catch-all that sends to /blog", () => {
+  it("dated bat mitzvah URLs are static redirects, with no static /2021 catch-all", () => {
+    /* נתיבי השנה עברו ל-proxy (15.10.2026), וההפניה הקבועה עם התאריך רצה לפניו */
     const sources = getLegacyRedirects().map((r) => decodeURI(bareSource(r.source)));
     const catchAll = sources.indexOf("/2021/:path*");
-    assert.ok(catchAll >= 0);
+    assert.equal(catchAll, -1);
     for (const dated of ["/2021/05/15/שירים-לבת-מצווה", "/2021/09/06/רשימת-שירים-לבת-מצווה"]) {
       const at = sources.indexOf(dated);
-      assert.ok(at >= 0 && at < catchAll, dated);
+      assert.ok(at >= 0, dated);
     }
   });
 
@@ -282,15 +285,17 @@ describe("legacy redirects: D57 old URLs that were still 404 or landed on /blog 
     }
   });
 
-  it("the dated ones sit before the /2019 catch-all, and the catch-all still sends other posts to /blog", () => {
+  it("the dated ones are static redirects, and the proxy still sends other /2019 posts to /blog", () => {
+    /* נתיבי השנה עברו ל-proxy (15.10.2026), וההפניה הקבועה עם התאריך רצה לפניו */
     const sources = getLegacyRedirects().map((r) => decodeURI(bareSource(r.source)));
     const catchAll = sources.indexOf("/2019/:path*");
-    assert.ok(catchAll >= 0);
+    assert.equal(catchAll, -1);
     for (const [old] of added.filter(([path]) => path.startsWith("/2019/"))) {
       const at = sources.indexOf(old);
-      assert.ok(at >= 0 && at < catchAll, old);
+      assert.ok(at >= 0, old);
     }
-    assert.equal(firstManifestDestination(requestPathname("/2019/11/05/פוסט-אחר/")), "/blog");
+    assert.equal(firstManifestDestination(requestPathname("/2019/11/05/פוסט-אחר/")), null);
+    assert.equal(waybackEquivalent(requestPathname("/2019/11/05/פוסט-אחר/")), "/blog");
   });
 
   it("the short sources match only themselves, and the undated /הקלטת-דרשה-לבר-מצווה keeps its service target", () => {
@@ -343,5 +348,57 @@ describe("goneEquivalent (product URLs with a real page get 308, not 410)", () =
 
   it("does not throw on a malformed encoding", () => {
     assert.equal(goneEquivalent("/product/%E0%A4%A"), null);
+  });
+});
+
+describe("waybackEquivalent (Wayback URLs and year paths, served by proxy.ts, 15.10.2026)", () => {
+  const lower = (p: string) => encodeURI(p).replace(/%[0-9A-F]{2}/g, (h) => h.toLowerCase());
+
+  it("maps dated and Hebrew-first URLs, encoded upper or lower case, with or without a slash", () => {
+    for (const p of [
+      "/2019/07/23/תקליטן-בירושלים",
+      encodeURI("/2019/07/23/תקליטן-בירושלים"),
+      lower("/2019/07/23/תקליטן-בירושלים"),
+      `${encodeURI("/2019/07/23/תקליטן-בירושלים")}/`,
+    ]) {
+      assert.equal(waybackEquivalent(p), "/dj-events/cities/jerusalem", p);
+    }
+    assert.equal(waybackEquivalent(encodeURI("/מצגת-תמונות-לאירוע")), "/photo-slideshow");
+    assert.equal(waybackEquivalent(encodeURI("/2021/03/01/מחירון-אולפן-הקלטות")), "/studio/pricing");
+  });
+
+  it("keeps the old /blog fallback for every other year path", () => {
+    for (const y of PROXY_YEAR_PREFIXES) {
+      assert.equal(waybackEquivalent(y), "/blog", y);
+      assert.equal(waybackEquivalent(`${y}/01/01/something-unknown`), "/blog", y);
+    }
+    assert.equal(waybackEquivalent("/2025/01/01/x"), null);
+    assert.equal(waybackEquivalent("/20199/x"), null);
+  });
+
+  it("leaves unknown Hebrew paths and live routes alone", () => {
+    assert.equal(waybackEquivalent(encodeURI("/סטטוסים-חזקים")), null);
+    assert.equal(waybackEquivalent("/events/dj-events"), null);
+    assert.equal(waybackEquivalent("/%E0%A4%A"), null);
+  });
+
+  it("every proxy target is an ASCII site path", () => {
+    for (const p of ["/2019/07/22/תקליטן-בחיפה", "/תקליטן-במודיעין", "/קומפרסור-במוזיקה"]) {
+      const t = waybackEquivalent(encodeURI(p));
+      assert.ok(t && /^\/[\x21-\x7e]*$/.test(t), p);
+    }
+  });
+
+  it("Latin-first Wayback URLs stay static redirects (the proxy matcher only sees Hebrew-first and year paths)", () => {
+    const dest = new Map(
+      getLegacyRedirects().map((r) => [decodeURI(bareSource(r.source)), r.destination.replace("https://yakircohen.com", "")]),
+    );
+    assert.equal(dest.get("/VocalSite/funtone.asp"), "/business/professional-voiceover");
+    assert.equal(dest.get("/Video/קריינות-לסלולר"), "/business/professional-voiceover");
+    assert.equal(dest.get("/contact-us"), "/contact");
+  });
+
+  it("product URLs from the same scan go to their page through goneEquivalent", () => {
+    assert.equal(goneEquivalent(encodeURI("/product/מצגת-תמונות-לאירוע")), "/photo-slideshow");
   });
 });

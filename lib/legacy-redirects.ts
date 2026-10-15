@@ -154,6 +154,41 @@ const GONE_EQUIVALENT_PAIRS: ReadonlyArray<readonly [string, string]> = [
   ["/product/תקליטן-לאירוע-קטן", "/events/dj-events"], // 4
   /* נוספה ידנית, בלי נתון קליקים: קישור חי אליה נחת על 410 (הבעלים, 14.10.2026). */
   ["/product/תקליטן-לאירועים", "/events/dj-events"],
+  /* 15.10.2026, אישור הבעלים: עוד מוצרים ישנים מהארכיון (Wayback) שהחזירו 410, עם עמוד באותו נושא. בלי נתון קליקים. */
+  ["/product/2-זיקוקים-קרים-בכניסה", "/events/attractions/cold-fireworks"],
+  ["/product/4-זיקוקים-קרים-בכניסה", "/events/attractions/cold-fireworks"],
+  ["/product/6-זיקוקים-קרים-2", "/events/attractions/cold-fireworks"],
+  ["/product/podcast-with-grandpa", "/podcast/podcast-with-grandpa"],
+  ["/product/בועות-סבון-לאירוע", "/events/attractions/bubble-machine"],
+  ["/product/בועות-סבון-לאירועים", "/events/attractions/bubble-machine"],
+  ["/product/בלוני-ענק-לאירועים", "/events/attractions/giant-balloons"],
+  ["/product/בלוני-ענק-לרחבה-כי-חגיגה-אמיתית-צריכה", "/events/attractions/giant-balloons"],
+  ["/product/בלונים-מתפוצצים-בסלואו", "/events/attractions/giant-balloons"],
+  ["/product/הפעלה-נוספת-של-תותח-קונפטי", "/events/attractions/confetti-cannon"],
+  ["/product/הפקת-שיר-מקורי", "/studio/original-song"],
+  ["/product/הקלטת-ברכות-לאירוע", "/studio/blessings"],
+  ["/product/הקלטת-קליפ-באולפן", "/studio/blessings/video-clip"],
+  ["/product/הקלטת-קליפ-באולפן-משפחה", "/studio/blessings/video-clip"],
+  ["/product/הקלטת-שיר-מסלול-בסיסי", "/studio/recording-song-modiin"],
+  ["/product/חבילת-הזיכרונות-הבלתי-נשכחים-מצגת-ת", "/photo-slideshow"],
+  ["/product/חבילת-שיר-לאירוע", "/studio/recording-song-modiin"],
+  ["/product/מיקס-מאסטרינג-לשירה-ביתית-חובבנית", "/online/vocal-fix/mixing"],
+  ["/product/מכונת-בועות-סבון-עשן-שירות-הפעלה-לאירו", "/events/attractions/bubble-machine/smoke-bubble-machine-events"],
+  ["/product/מצגת-תמונות-לאירוע", "/photo-slideshow"],
+  ["/product/מצגת-תמונות-לאירוע-ai-בינה-מלאכותית-הפכ", "/photo-slideshow"],
+  ["/product/עמדת-דיגיי-לד-לאירועים", "/events/stage-led-dj"],
+  ["/product/עמדת-דיגיי-להשכרה", "/events/stage-led-dj"],
+  ["/product/עשן-כבד-לאולם-קטן", "/events/attractions/wedding-smoking-machine/heavy-smoke-large-events"],
+  ["/product/עשן-כבד-לאירועים-גדולים", "/events/attractions/wedding-smoking-machine/heavy-smoke-large-events"],
+  ["/product/עשן-כבד-לסלואו", "/events/attractions/wedding-smoking-machine"],
+  ["/product/ציוד-הגברה-מקצועי", "/events/equipment"],
+  ["/product/צרו-את-הלחן-המושלם-לשיר-שלכם", "/studio/original-song"],
+  ["/product/קריינות-לטלפון", "/business/professional-voiceover"],
+  ["/product/קריינות-לסט-חבילה-5-משפטים", "/events/dj/voice-tags"],
+  ["/product/שיפור-סאונד-הקלטה", "/online/vocal-fix"],
+  ["/product/שיר-מקורי-ליום-ההולדת", "/studio/original-song"],
+  ["/product/תוספת-בלוני-ענק-לאירוע", "/events/attractions/giant-balloons"],
+  ["/product/תקליטן-מומלץ-לחתונה", "/events/dj-events"],
   ["/product/שיפור-איכות-הקלטה", "/online/vocal-fix"], // 4
   ["/product/הקלטת-שיר-באולפן-מסלול-חוויה", "/studio/recording-song-modiin"], // 3
   ["/product/2-רובי-עשן-לאירועים", "/events/attractions/smoke-cannons-for-events"], // 3
@@ -172,6 +207,283 @@ export function goneEquivalent(pathname: string): string | null {
   return GONE_EQUIVALENTS.get(path) ?? null;
 }
 
+/**
+ * 15.10.2026, אישור הבעלים: כתובות מהאתר הישן (Wayback) שנחתו על אינדקס הבלוג או
+ * החזירו 404, ויש להן עמוד באותו נושא. כשלכתובת בלי התאריך כבר יש יעד במפה, היעד זהה לו.
+ * כתובות בלי מקביל נשארות 404. ההצעות שלא אושרו: seo-handoff/old-urls-redirect-proposal-2026-10-15.csv
+ *
+ * למה ב-proxy ולא ב-next.config: Vercel מגביל ל-1,024 הפניות, וכל מקור בעברית נספר
+ * פעמיים (withLowercaseHexTwin). 304 הכתובות האלה היו מביאות את הספירה ל-1,357.
+ * ב-proxy זו טבלה אחת, ו-decodeURIComponent מכסה hex גדול וקטן ממילא.
+ * כתובות שמתחילות באותיות לטיניות (asp, /Video) נשארו ב-WAYBACK_404_EQUIVALENTS,
+ * כי ה-matcher של ה-proxy תופס רק נתיבים שמתחילים בעברית ונתיבי שנה.
+ */
+const WAYBACK_PROXY_PAIRS: ReadonlyArray<readonly [string, string]> = [
+  ["/2019/07/22/תקליטן-בזכרון-יעקב", "/events/dj-events"],
+  ["/2019/07/22/תקליטן-בחיפה", "/events/dj-events"],
+  ["/2019/07/22/תקליטן-בטבריה", "/events/dj-events"],
+  ["/2019/07/22/תקליטן-בנתניה", "/events/dj-events"],
+  ["/2019/07/22/תקליטן-בצפון", "/events/dj-events"],
+  ["/2019/07/22/תקליטן-לחתונה-בשרון", "/events/dj-events"],
+  ["/2019/07/22/תקליטן-מהצפון", "/events/dj-events"],
+  ["/2019/07/23/די-גיי-בתל-אביב", "/events/dj-events"],
+  ["/2019/07/23/תקליטן-באשדוד", "/events/dj-events"],
+  ["/2019/07/23/תקליטן-בבאר-שבע", "/events/dj-events"],
+  ["/2019/07/23/תקליטן-בבית-שמש", "/events/dj-events"],
+  ["/2019/07/23/תקליטן-בבת-ים", "/events/dj-events"],
+  ["/2019/07/23/תקליטן-בגבעתיים", "/events/dj-events"],
+  ["/2019/07/23/תקליטן-בגן-יבנה", "/events/dj-events"],
+  ["/2019/07/23/תקליטן-בדרום", "/events/dj-events"],
+  ["/2019/07/23/תקליטן-בהוד-השרון", "/events/dj-events"],
+  ["/2019/07/23/תקליטן-בהרצליה", "/events/dj-events"],
+  ["/2019/07/23/תקליטן-בחולון", "/events/dj-events"],
+  ["/2019/07/23/תקליטן-ביהוד", "/events/dj-events"],
+  ["/2019/07/23/תקליטן-בירושלים", "/dj-events/cities/jerusalem"],
+  ["/2019/07/23/תקליטן-במודיעין", "/events/dj-events"],
+  ["/2019/07/23/תקליטן-במרכז", "/events/dj-events"],
+  ["/2019/07/23/תקליטן-בערד", "/events/dj-events"],
+  ["/2019/07/23/תקליטן-בפתח-תקווה", "/events/dj-events"],
+  ["/2019/07/23/תקליטן-בקרית-אונו", "/events/dj-events"],
+  ["/2019/07/23/תקליטן-בקרית-גת", "/events/dj-events"],
+  ["/2019/07/23/תקליטן-ברחובות", "/dj-events/cities/rehovot"],
+  ["/2019/07/23/תקליטן-ברמת-גן", "/events/dj-events"],
+  ["/2019/07/23/תקליטן-ברמת-השרון", "/events/dj-events"],
+  ["/2019/07/23/תקליטן-ברעננה", "/events/dj-events"],
+  ["/2019/07/23/תקליטן-בתל-אביב", "/events/dj-events"],
+  ["/2019/07/23/תקליטן-לחינה-בירושלים", "/dj-events/cities/jerusalem"],
+  ["/2019/07/23/תקליטן-לחתונה-באשקלון", "/events/dj-events"],
+  ["/2019/07/24/dj-בחתונה", "/events/dj-events"],
+  ["/2019/07/24/dj-דתי", "/events/dj-events"],
+  ["/2019/07/24/dj-חרדי", "/events/dj-events"],
+  ["/2019/07/24/dj-לאירוע", "/events/dj-events"],
+  ["/2019/07/24/dj-לחתונה", "/events/dj-events"],
+  ["/2019/07/24/די-ג-יי-לחתונה", "/events/dj-events"],
+  ["/2019/07/24/די-גיי-במבצע", "/events/dj-events"],
+  ["/2019/07/24/די-גיי-יקיר-כהן", "/events/dj-events"],
+  ["/2019/07/24/די-גיי-לאירועים", "/events/dj-events"],
+  ["/2019/07/24/די-גיי-לחתונה", "/events/dj-events"],
+  ["/2019/07/24/די-גיי-לחתונה-דתית", "/events/dj-events"],
+  ["/2019/07/24/די-גיי-לחתונות", "/events/dj-events"],
+  ["/2019/07/24/דיגיי-לחתונה", "/events/dj-events"],
+  ["/2019/07/24/הדי-גיי-הכי-טוב-בישראל", "/events/dj-events"],
+  ["/2019/07/24/תקליטן-דתי", "/events/dj-events"],
+  ["/2019/07/24/תקליטן-דתי-לחתונה", "/events/dj-events"],
+  ["/2019/07/24/תקליטן-חתונה", "/events/dj-events"],
+  ["/2019/07/24/תקליטן-טוב", "/events/dj-events"],
+  ["/2019/07/24/תקליטן-לחינה", "/events/dj-events"],
+  ["/2019/07/24/תקליטן-לחתונה", "/events/dj-events"],
+  ["/2019/07/24/תקליטן-לחתונות", "/events/dj-events"],
+  ["/2019/07/24/תקליטן-מבצע", "/events/dj-events"],
+  ["/2019/07/24/תקליטן-מומלץ-לחתונה", "/events/dj-events"],
+  ["/2019/07/24/תקליטנים", "/events/dj-events"],
+  ["/2019/07/24/תקליטנים-לחתונה", "/events/dj-events"],
+  ["/2019/07/25/תקליטן-במבצע", "/events/dj-events"],
+  ["/2019/07/25/תקליטן-חתונות", "/events/dj-events"],
+  ["/2019/07/25/תקליטן-לאירוע", "/events/dj-events"],
+  ["/2019/07/25/תקליטן-לברית", "/events/dj-events"],
+  ["/2019/07/25/תקליטן-לבריתה", "/events/dj-events"],
+  ["/2019/07/25/תקליטן-ליום-הולדת", "/events/dj-events"],
+  ["/2019/07/25/תקליטן-למסיבה", "/events/dj-events"],
+  ["/2019/09/18/בועות-סבון", "/events/attractions/bubble-machine"],
+  ["/2019/09/18/בלוני-אורז-ברחבת-הריקודים", "/events/attractions/giant-balloons"],
+  ["/2019/09/18/עמדת-לד-לאירוע-מתאים-גם-לdj", "/events/stage-led-dj"],
+  ["/2019/09/18/עשן-כבד-משטח-ענן", "/events/attractions/wedding-smoking-machine/heavy-smoke-large-events"],
+  ["/2019/09/18/תותח-קונפטי-לאירועים", "/events/attractions/confetti-cannon"],
+  ["/2019/09/24/תקליטן-זול-לחתונה-תקליטן-לחתונה-במח", "/events/dj-events"],
+  ["/2019/10/02/בלוני-לד-לאירועים", "/events/attractions/giant-balloons"],
+  ["/2019/10/22/עשן-לסלואו", "/events/attractions/wedding-smoking-machine"],
+  ["/2019/10/22/קרח-יבש-לחתונה", "/events/attractions"],
+  ["/2019/11/05/איך-בוחרים-תקליטן-לחתונה", "/events/dj-events"],
+  ["/2019/11/05/גינגל", "/business/professional-voiceover"],
+  ["/2019/11/05/די-גיי-טוב", "/events/dj-events"],
+  ["/2019/11/05/מחיר-תקליטן-כמה-עולה-להזמין-תקליטן", "/events/dj-events"],
+  ["/2019/11/05/מחיר-תקליטן-לחתונה", "/events/dj-events"],
+  ["/2019/11/05/מיתוג-קולי-לעסק", "/business/professional-voiceover"],
+  ["/2019/11/05/עשן-לחתונה-מחיר-כמה-עולה-עשן-לחתונה", "/events/attractions/wedding-smoking-machine"],
+  ["/2019/11/05/פירוטכניקה-לחתונה-מה-זה-כולל-ומאיפה", "/events/attractions/cold-fireworks"],
+  ["/2019/11/05/ציוד-הגברה-לתקליטנים", "/events/equipment"],
+  ["/2019/11/05/צלם-חתונות-במרכז-מתחתנים-מזל-טוב", "/photography/wedding"],
+  ["/2019/11/05/קורס-קריינות-רדיו", "/academy/voiceover"],
+  ["/2019/11/05/קליפ-בת-מצווה-קליפ-לבת-מצווה", "/studio/blessings/bat-mitzvah-clip"],
+  ["/2019/11/05/קריין-לסט", "/events/dj/voice-tags"],
+  ["/2019/11/05/קריינות-בחינם-ל-dj", "/business/professional-voiceover"],
+  ["/2019/11/05/קריינות-חינם-ספירה-לאחור-dj-סילבסטר", "/business/professional-voiceover"],
+  ["/2019/11/05/קריינות-למרכזיה", "/business/professional-voiceover"],
+  ["/2019/11/05/שיר-לחופה-מרגש-הבחירה-המדויקת-לשיר-החו", "/blog/wedding-songs-chuppah"],
+  ["/2019/11/05/תכנון-חופה-ובחירת-שיר-מוצלח-ומרגש-במיו", "/blog/wedding-songs-chuppah"],
+  ["/2019/11/05/תקליטן-או-להקה-תקליטן-חתונה-במקום-להקה", "/events/dj-events"],
+  ["/2019/11/05/תקליטן-דתי-לחתונה-בירושלים", "/dj-events/cities/jerusalem"],
+  ["/2019/11/05/תקליטן-הבית-מעוניינים-לחסוך-חשוב-שתדע", "/events/dj-events"],
+  ["/2019/11/05/תקליטן-זול", "/blog/cheap-dj-for-a-wedding"],
+  ["/2019/11/05/תקליטן-טרנס-לחתונה", "/events/dj-events"],
+  ["/2019/11/05/תקליטן-לברית-בירושלים", "/dj-events/cities/jerusalem"],
+  ["/2019/11/05/תקליטן-לברית-במודיעין", "/events/dj-events"],
+  ["/2019/11/05/תקליטן-לבת-מצווה-בירושלים", "/dj-events/cities/jerusalem"],
+  ["/2019/11/05/תקליטנים-בירושלים", "/dj-events/cities/jerusalem"],
+  ["/2020/01/27/קומפרסור-במוזיקה", "/glossary/compression"],
+  ["/2020/04/19/בלונים-מתפוצצים-בסלואו", "/events/attractions/giant-balloons"],
+  ["/2020/05/03/תקליטן-באילת", "/events/dj-events"],
+  ["/2020/08/16/הפקת-שיר-מקורי", "/studio/recording-song-modiin"],
+  ["/2020/09/22/תיקון-זיופים", "/online/vocal-fix"],
+  ["/2020/11/01/תקליטן-לחתונה-מומלץ", "/events/dj-events"],
+  ["/2020/11/02/צליל-המתנה-עסקי", "/business/professional-voiceover"],
+  ["/2020/11/03/תקליטן-חינה", "/events/dj-events"],
+  ["/2020/11/06/הגברה-לאירועים", "/events/equipment/singer-amplification"],
+  ["/2020/11/11/תקליטן-לחתונה-בירושלים", "/dj-events/cities/jerusalem"],
+  ["/2020/11/14/פנטון", "/business/professional-voiceover"],
+  ["/2020/11/15/צליל-עסקי-לנייד", "/business/professional-voiceover"],
+  ["/2020/11/17/תקליטן-לאירועים", "/events/dj-events"],
+  ["/2020/11/18/dj-חתונה-ממה-צריך-להיזהר-ומה-החשיבות", "/events/dj-events"],
+  ["/2020/11/20/תותח-קונפטי-לאירועים-2", "/events/attractions/confetti-cannon"],
+  ["/2020/11/22/קריינות-למרכזייה-הדגשים-שעליהם-חייבי", "/business/professional-voiceover"],
+  ["/2020/11/23/קריינות-רדיו-וטיפים-לקריין-המתחיל-או-ל", "/voiceover"],
+  ["/2020/12/01/סרטוני-בת-מצווה", "/studio/blessings/bat-mitzvah-clip"],
+  ["/2020/12/02/תותח-קונפטי-מה-זה-ומה-ההבדלים", "/events/attractions/confetti-cannon"],
+  ["/2020/12/18/הקלטת-שיר-חתונה", "/studio/recording-song-modiin"],
+  ["/2021/01/06/מיקס-לשיר", "/online/vocal-fix/mixing"],
+  ["/2021/01/08/מיקס-מאסטרינג", "/online/vocal-fix/mixing"],
+  ["/2021/01/13/מיקס-ומאסטרינג", "/online/vocal-fix/mixing"],
+  ["/2021/01/20/mp3-או-wav", "/blog/mp3-vs-wav-studio-guide"],
+  ["/2021/01/20/פורמט-אודיו-מומלץ", "/blog/mp3-vs-wav-studio-guide"],
+  ["/2021/01/27/מיקרופון-דינמי-למיקרופון-קונדנסר", "/glossary/condenser-microphone"],
+  ["/2021/02/10/שיר-מקורי", "/studio/recording-song-modiin"],
+  ["/2021/03/01/מחירון-אולפן-הקלטות", "/studio/pricing"],
+  ["/2021/03/03/אולפן-הקלטות-זול", "/studio"],
+  ["/2021/03/10/כמה-עולה-שעת-אולפן", "/studio/pricing"],
+  ["/2021/03/17/תיקון-זיופים-בקיובייס", "/online/vocal-fix"],
+  ["/2021/03/21/מכונת-עשן", "/events/attractions/wedding-smoking-machine"],
+  ["/2021/03/31/אולפן-הקלטות-מחירים", "/studio/pricing"],
+  ["/2021/03/31/להקליט-שיר-מחיר", "/studio/recording-song-modiin"],
+  ["/2021/04/05/ההבדל-בין-מונו-לבין-סטריאו", "/glossary/stereo"],
+  ["/2021/04/14/אולפן-הקלטות-ביתי", "/academy/home-studio"],
+  ["/2021/06/08/להקים-אולפן-הקלטות", "/academy/home-studio"],
+  ["/2021/08/15/מכונת-בועות-סבון-לאירועים", "/events/attractions/bubble-machine"],
+  ["/2021/08/19/dj-לאירועים", "/events/dj-events"],
+  ["/2021/08/19/צלם-חתונות-מרכז", "/photography/wedding"],
+  ["/2021/09/06/אולפן-הקלטות-בירושלים-מחירים", "/studio/studio-jerusalem"],
+  ["/2021/11/21/הפקת-שיר-מחיר", "/studio/recording-song-modiin"],
+  ["/2022/05/02/אולפן-הקלטה-מחירים", "/studio/pricing"],
+  ["/2022/05/02/אולפן-הקלטות-מחיר", "/studio/pricing"],
+  ["/אזורי-פעילות", "/areas"],
+  ["/איך-בוחרים-די-גיי-לחתונה", "/events/dj-events"],
+  ["/איך-בוחרים-תקליטן-לחתונה/טיפים-לבחירת", "/events/dj-events"],
+  ["/גיי-יקיר-כהן-תקליטן-בפתח-תקווה", "/events/dj-events"],
+  ["/גיי-יקיר-כהן-תקליטן-לברית-ובריתה", "/events/dj-events"],
+  ["/גיי-לאירוע-שלכם-ברמה-הכי-גבוהה-שיש", "/events/dj-events"],
+  ["/גיי-לאירועים-תקליטן-לאירועים", "/events/dj-events"],
+  ["/די-גיי-במבצע", "/events/dj-events"],
+  ["/די-גיי-בתל-אביב", "/events/dj-events"],
+  ["/די-גיי-יקיר-כהן", "/events/dj-events"],
+  ["/די-גיי-לחתונה-ואירועים-רק-יקיר-כהן", "/events/dj-events"],
+  ["/די-גיי-לחתונה/תקליטן-לחתונה", "/events/dj-events"],
+  ["/דיגיי-לחתונה", "/events/dj-events"],
+  ["/הדי-גיי-הכי-טוב-בישראל", "/events/dj-events"],
+  ["/ההבדל-בין-מונו-לבין-סטריאו", "/glossary/stereo"],
+  ["/ההבדלים-בין-סוגי-המיקרופונים-סוף-סוף-ת", "/glossary/condenser-microphone"],
+  ["/המחיר-תקליטן-לאירוע", "/events/dj-events"],
+  ["/המלצות-קריינות-לdj", "/events/dj/voice-tags"],
+  ["/המלצות-קריינות-לסט-2", "/events/dj/voice-tags"],
+  ["/המלצות-קריינות-לסט7", "/events/dj/voice-tags"],
+  ["/הקלטת-ברכות-משפחה", "/studio/blessings"],
+  ["/הקלטת-ברכת-כלה-2", "/studio/blessings/bride-groom-blessing"],
+  ["/השכרת-הגברה-לאירועים-עד-250-איש", "/events/equipment"],
+  ["/השכרת-ציוד-הגברה-ואו-תאורה", "/events/equipment"],
+  ["/זוגות-מספרים-תקליטן-לחתונה", "/events/dj-events"],
+  ["/זיקוקים-וקונפטי", "/events/attractions/cold-fireworks"],
+  ["/חבילות-קריינות-לdj", "/events/dj/voice-tags"],
+  ["/חולמים-להיות-קריינים-קורס-הקריינות-של", "/voiceover/course"],
+  ["/טיפים/תקליטן-לחתונה-ההבדלים-בין-חובבן-למקצו", "/events/dj-events"],
+  ["/יצירת-קשר", "/contact"],
+  ["/יצירת-קשר-2", "/contact"],
+  ["/יקיר-כהן-תקליטן-בחיפה-והקריות", "/events/dj-events"],
+  ["/כל-מה-שרציתם-לדעת-על-בחירת-השיר-לחופה-של", "/blog/chuppah-song-guide-couples"],
+  ["/כל-מה-שרציתם-לדעת-על-בחירת-שיר-כניסה-לחו", "/blog/chuppah-song-guide-couples"],
+  ["/כמה-עולה-עשן-לחתונה-עשן-לחתונה-מחיר", "/events/attractions/wedding-smoking-machine"],
+  ["/מה-זה-קומפרסור-כל-מה-שרציתם-לדעת-ולא-הע", "/glossary/compression"],
+  ["/מוזיקה-לאירועים-יקיר-כהן", "/events/dj-events"],
+  ["/מיקרופון-דינמי-למיקרופון-קונדנסר", "/glossary/condenser-microphone"],
+  ["/מכונת-עשן-לאירוע", "/events/attractions/wedding-smoking-machine"],
+  ["/מצגת-לאירוע", "/photo-slideshow"],
+  ["/מצגת-תמונות-לאירוע", "/photo-slideshow"],
+  ["/נוסח-ברכת-כלה", "/studio/blessings/bride-groom-blessing"],
+  ["/ניווט-קולי-בטלפון", "/business/professional-voiceover"],
+  ["/עמדת-led", "/events/stage-led-dj"],
+  ["/עמוד-המלצת-קריינות-dj", "/events/dj/voice-tags"],
+  ["/עשן-כבד-לאירועים", "/events/attractions/wedding-smoking-machine/heavy-smoke-large-events"],
+  ["/עשן-לחתונה", "/events/attractions/wedding-smoking-machine"],
+  ["/עשן-קרח-לחתונה", "/events/attractions/wedding-smoking-machine"],
+  ["/פאנטון-לעסק", "/business/professional-voiceover"],
+  ["/פאנטון-עסקי", "/business/professional-voiceover"],
+  ["/פאנטון-עסקי-קריין-למרכזיה", "/business/professional-voiceover"],
+  ["/פירוטכניקה-לחתונה-מה-זה-כולל", "/events/attractions/cold-fireworks"],
+  ["/צליל-עסקי", "/business/professional-voiceover"],
+  ["/קומפרסור-במוזיקה", "/glossary/compression"],
+  ["/קורס-מוזיקה-וסאונד-ai", "/academy/ai-music"],
+  ["/קריין-לסט", "/events/dj/voice-tags"],
+  ["/קריינות-dj-בחינם", "/events/dj/voice-tags"],
+  ["/קריינות-dj-לסט", "/events/dj/voice-tags"],
+  ["/קריינות-ספירה-לאחור-סילבסטר", "/events/dj/voice-tags"],
+  ["/קריינות-ספירה-לאחור-שנה-חדשה-סילבסטר", "/events/dj/voice-tags"],
+  ["/תותח-קונפטי", "/events/attractions/confetti-cannon"],
+  ["/תנאי-שימוש-יקיר-כהן-הפקות", "/terms"],
+  ["/תקליטן-בבת-ים-די-גיי-בבת-ים", "/events/dj-events"],
+  ["/תקליטן-בגבעתיים-גיי-בגבעתיים", "/events/dj-events"],
+  ["/תקליטן-בגן-יבנה-גיי-בגן-יבנה", "/events/dj-events"],
+  ["/תקליטן-בדרום-גיי-בדרום", "/events/dj-events"],
+  ["/תקליטן-בהוד-השרון-גיי-בהוד-השרון", "/events/dj-events"],
+  ["/תקליטן-בחולון-גיי-בחולון", "/events/dj-events"],
+  ["/תקליטן-בטבריה-די-גיי-בטבריה", "/events/dj-events"],
+  ["/תקליטן-ביהוד-גיי-ביהוד", "/events/dj-events"],
+  ["/תקליטן-במבצע-תקליטן-לחתונה-במבצע", "/events/dj-events"],
+  ["/תקליטן-במודיעין", "/events/dj-events"],
+  ["/תקליטן-במרכז", "/events/dj-events"],
+  ["/תקליטן-במרכז-גיי-במרכז", "/events/dj-events"],
+  ["/תקליטן-בצפון-גיי-בצפון", "/events/dj-events"],
+  ["/תקליטן-בקרית", "/events/dj-events"],
+  ["/תקליטן-בראשון-לציון", "/events/dj-events"],
+  ["/תקליטן-זול-לחתונה-תקליטן-לחתונה-במח", "/events/dj-events"],
+  ["/תקליטן-זול-לחתונה-תקליטן-לחתונה-במחיר", "/events/dj-events"],
+  ["/תקליטן-חתונה", "/events/dj-events"],
+  ["/תקליטן-טרנס-לחתונה", "/events/dj-events"],
+  ["/תקליטן-לברית-במודיעין", "/events/dj-events"],
+  ["/תקליטן-לחתונה-בירושלים-גיי-לחתונה-ביר", "/dj-events/cities/jerusalem"],
+  ["/תקליטן-לחתונה-גיי-לחתונה-מחירים", "/events/dj-events"],
+  ["/תקליטן-לחתונה/מחיר-תקליטן-לחתונה", "/events/dj-events"],
+  ["/תקליטן-לחתונה/מחירון-תקליטן-כמה-עולה-להזמין-תקליטן", "/events/dj-events"],
+  ["/תקליטן-לחתונה/תקליטן-באשדוד-גיי-באשדוד", "/events/dj-events"],
+  ["/תקליטן-ליום-הולדת", "/events/dj-events"],
+  ["/תקליטן-למסיבה", "/events/dj-events"],
+  ["/תקליטן-למסיבה-גיי-למסיבה", "/events/dj-events"],
+  ["/תקליטן-מומלץ-לחתונה-די-גיי-מומלץ-לחתו", "/events/dj-events"],
+  ["/תקליטן/יתרונות-להזמין-תקליטן-לחתונה-במקום-לה", "/events/dj-events"],
+  ["/תקליטן/תקליטן-דתי-לחתונה-2", "/events/dj-events"],
+  ["/תקליטנים", "/events/dj-events"],
+];
+
+const WAYBACK_PROXY = new Map(WAYBACK_PROXY_PAIRS);
+
+/**
+ * נתיבי השנה של WordPress. עד 15.10.2026 היו כאן הפניות קבועות של "/2019/:path*" ודומיו
+ * אל /blog, אבל הפניה ב-next.config רצה לפני ה-proxy, ולכן היא הייתה מסתירה את WAYBACK_PROXY.
+ * ה-proxy שולח עכשיו ל-/blog כל כתובת שנה שאין לה יעד אחר. ההפניות הקבועות עם התאריך
+ * שב-WORDPRESS_PATTERNS עדיין רצות ראשונות, וזה בסדר: יש להן יעד משלהן.
+ * ה-matcher ב-proxy.ts משכפל את הרשימה, ו-scripts/audit-proxy-gone.mjs אוכף שהם לא נפרדים.
+ */
+export const PROXY_YEAR_PREFIXES = ["/2017", "/2018", "/2019", "/2020", "/2021", "/2022", "/2023", "/2024"] as const;
+
+/** יעד לכתובת ישנה שה-proxy מפנה (Wayback, ונתיבי שנה), או null. מקבל pathname מקודד או לא. */
+export function waybackEquivalent(pathname: string): string | null {
+  let path = pathname.replace(/\/+$/, "");
+  try {
+    path = decodeURIComponent(path);
+  } catch {
+    return null;
+  }
+  const hit = WAYBACK_PROXY.get(path);
+  if (hit) return hit;
+  return PROXY_YEAR_PREFIXES.some((p) => path === p || path.startsWith(`${p}/`)) ? "/blog" : null;
+}
+
 export const CART_QUERY_KEY = "add-to-cart";
 
 export function clearCartQuery(url: { searchParams: URLSearchParams; search: string }): boolean {
@@ -183,6 +495,8 @@ export function clearCartQuery(url: { searchParams: URLSearchParams; search: str
 export const GONE_EXACT_PATHS = ["/xmlrpc.php", "/index.aspx", "/main.asp"] as const;
 
 const WORDPRESS_PATTERNS: Array<{ source: string; destination: string }> = [
+  /* נתיבי השנה (/2017 עד /2024) עברו ל-proxy ב-15.10.2026, ראו PROXY_YEAR_PREFIXES.
+     ההפניות עם התאריך שכאן רצות לפני ה-proxy, ולכן הן עדיין קובעות את היעד שלהן. */
   /* /product, /product-tag, /product-category, /category, /tag, /shop-2, /wp-*
      ו-/xmlrpc.php הועברו ל-410 ב-proxy.ts. ראו GONE_PATH_PREFIXES למעלה. */
   /* הכתובות עם התאריך של מדריך הסלואו (Wayback). לפני /2019 ו-/2021. */
@@ -198,24 +512,16 @@ const WORDPRESS_PATTERNS: Array<{ source: string; destination: string }> = [
   { source: "/2019/11/05/בחירת-שיר-כניסה-לחופה-כל-מה-שרציתם-לדע", destination: "/blog/wedding-songs-chuppah" },
   { source: "/2019/11/05/שירים-לחופה-איך-לבחור-זמר-איכותי", destination: "/blog/wedding-songs-chuppah" },
   { source: "/2019/11/26/הקלטת-דרשה-לבר-מצווה", destination: "/blog/bar-mitzvah-speech" },
-  { source: "/2019/:path*",              destination: "/blog" },
-  { source: "/2020/:path*",              destination: "/blog" },
   /* שתי הכתובות עם התאריך של אותו מאמר (Wayback, 2021). לפני /2021/:path*,
      שאחרת תופס אותן ושולח לאינדקס הבלוג. */
   { source: "/2021/05/15/שירים-לבת-מצווה", destination: "/blog/bat-mitzvah-songs" },
   { source: "/2021/09/06/רשימת-שירים-לבת-מצווה", destination: "/blog/bat-mitzvah-songs" },
-  { source: "/2021/:path*",              destination: "/blog" },
-  { source: "/2022/:path*",              destination: "/blog" },
   { source: "/privacy-policy/:path*",    destination: "/privacy" },
   { source: "/privacy-policy",           destination: "/privacy" },
   { source: "/feed",                     destination: "/blog" },
   { source: "/feed/:path*",              destination: "/blog" },
   { source: "/author/:path*",            destination: "/about" },
   { source: "/page/:path*",              destination: "/blog" },
-  { source: "/2018/:path*",              destination: "/blog" },
-  { source: "/2017/:path*",              destination: "/blog" },
-  { source: "/2023/:path*",              destination: "/blog" },
-  { source: "/2024/:path*",              destination: "/blog" },
 ];
 
 /** Hebrew-slug service pages from the old WordPress site */
@@ -613,6 +919,45 @@ const HEBREW_GSC_NOT_INDEXED: Record<string, string> = {
   "/שיר-כניסה-לחופה-איך-לבחור-זמר-איכותי": "/blog/wedding-songs-chuppah",
 };
 
+/**
+ * 15.10.2026, אישור הבעלים: כתובות מהאתר הישן (Wayback) שמתחילות באותיות לטיניות
+ * (asp, /Video, /dj-...) והחזירו 404. הפניות קבועות רגילות, כי ה-matcher של ה-proxy לא
+ * תופס אותן. את השאר ראו WAYBACK_PROXY_PAIRS.
+ */
+const WAYBACK_404_EQUIVALENTS: Record<string, string> = {
+  "/DjSite/HowToChooseADj.asp": "/events/dj-events",
+  "/DjSite/OrderProccess.asp": "/events/dj-events",
+  "/DjSite/RentEquipment.asp": "/events/equipment",
+  "/DjSite/contactus.asp": "/contact",
+  "/DjSite/index.asp": "/events/dj-events",
+  "/DjSite/workcase.asp": "/events/dj-events",
+  "/Video/funtone-eli-belisha-צליל-המתנה": "/business/professional-voiceover",
+  "/Video/המתנה-נעימה-פאנטון-עוד-עוזי-נקש": "/business/professional-voiceover",
+  "/Video/פאנטון-מירן-שירותי-ניקיון": "/business/professional-voiceover",
+  "/Video/פאנטון-קריינות-מקצועית": "/business/professional-voiceover",
+  "/Video/פרסומת-לטלפון-קריינות": "/business/professional-voiceover",
+  "/Video/צליל-בהמתנה-2": "/business/professional-voiceover",
+  "/Video/צליל-המתנה-לטלפון-הקלטה-לנתב-שיחות-2": "/business/professional-voiceover",
+  "/Video/צליל-עסקי-לטלפון": "/business/professional-voiceover",
+  "/Video/קריינות-באנגלית-לטלפון": "/business/professional-voiceover",
+  "/Video/קריינות-למרכזיה-2": "/business/professional-voiceover",
+  "/Video/קריינות-לסלולר": "/business/professional-voiceover",
+  "/VocalSite/contactus.asp": "/contact",
+  "/VocalSite/djpacks.asp": "/events/dj/voice-tags",
+  "/VocalSite/funtone.asp": "/business/professional-voiceover",
+  "/atraktsiot-le-iruim-bubbles": "/events/attractions/bubble-machine",
+  "/contact-us": "/contact",
+  "/dj-חתונה-ממה-צריך-להיזהר-ומה-החשיבות": "/events/dj-events",
+  "/dj-לחתונה": "/events/dj-events",
+  "/dj-לחתונה-למה-כדאי-לנו-להזמין-די-גי-לחת": "/events/dj-events",
+  "/dj-לחתונה/דיגיי-לחתונה": "/events/dj-events",
+  "/dj.asp": "/events/dj-events",
+  "/fantone.asp": "/business/professional-voiceover",
+  "/mp3-או-wav": "/blog/mp3-vs-wav-studio-guide",
+  "/terms.asp": "/terms",
+  "/uncategorized/צליל-עסקי": "/business/professional-voiceover",
+};
+
 /** Old English slugs used before the current route structure */
 const OLD_ENGLISH_SLUGS: Record<string, string> = {
   "/bubble-machine": "/events/attractions/bubble-machine",
@@ -815,6 +1160,10 @@ export function getLegacyRedirects(): LegacyRedirect[] {
     ([source, destination]) => toRedirect(source, destination),
   );
 
+  const fromWayback404 = Object.entries(WAYBACK_404_EQUIVALENTS).map(
+    ([source, destination]) => toRedirect(source, destination),
+  );
+
   const fromOldEnglishSlugs = Object.entries(OLD_ENGLISH_SLUGS).map(
     ([source, destination]) => toRedirect(source, destination),
   );
@@ -834,6 +1183,7 @@ export function getLegacyRedirects(): LegacyRedirect[] {
     ...fromMap,
     ...fromHebrewSlugs,
     ...fromGscHebrew,
+    ...fromWayback404,
     ...fromOldEnglishSlugs,
     ...fromCanonical,
     ...fromAttractions,
