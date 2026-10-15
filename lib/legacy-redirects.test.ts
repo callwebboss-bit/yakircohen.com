@@ -405,6 +405,18 @@ describe("waybackEquivalent (Wayback URLs and year paths, served by proxy.ts, 15
     assert.equal(waybackEquivalent(encodeURI("/חנות-הרמיקסים")), null);
   });
 
+  it("interview episodes go to /podcast and DJ recommendation pages to the voice tags (owner, 16.10.2026)", () => {
+    assert.equal(waybackEquivalent(encodeURI("/2021/12/04/רון-נשר")), "/podcast");
+    assert.equal(waybackEquivalent(encodeURI("/קובי-סוויסה")), "/podcast");
+    assert.equal(waybackEquivalent(encodeURI("/המלצות-די-גיי/גיי-שרון-טלקר-sharon-talker")), "/events/dj/voice-tags");
+    const dest = new Map(
+      getLegacyRedirects().map((r) => [decodeURI(bareSource(r.source)), r.destination.replace("https://yakircohen.com", "")]),
+    );
+    assert.equal(dest.get("/אמיר-חצרוני"), "/podcast");
+    assert.equal(dest.get("/המלצות-djs"), "/events/dj/voice-tags");
+    assert.equal(waybackEquivalent(encodeURI("/dj/דניאל-גרין")), null);
+  });
+
   it("product URLs from the same scan go to their page through goneEquivalent", () => {
     assert.equal(goneEquivalent(encodeURI("/product/מצגת-תמונות-לאירוע")), "/photo-slideshow");
   });
