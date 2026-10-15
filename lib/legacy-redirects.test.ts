@@ -398,6 +398,13 @@ describe("waybackEquivalent (Wayback URLs and year paths, served by proxy.ts, 15
     assert.equal(dest.get("/contact-us"), "/contact");
   });
 
+  it("the medium-confidence batch (16.10.2026) reaches its pages too", () => {
+    assert.equal(waybackEquivalent(encodeURI("/קורס-dj")), "/academy/dj-course");
+    assert.equal(waybackEquivalent(encodeURI("/2019/07/24/תקליטן-בר-מצווה")), "/events/dj-events");
+    assert.equal(goneEquivalent(encodeURI("/product/קריינות-מקצועית-לסט")), "/events/dj/voice-tags");
+    assert.equal(waybackEquivalent(encodeURI("/חנות-הרמיקסים")), null);
+  });
+
   it("product URLs from the same scan go to their page through goneEquivalent", () => {
     assert.equal(goneEquivalent(encodeURI("/product/מצגת-תמונות-לאירוע")), "/photo-slideshow");
   });
