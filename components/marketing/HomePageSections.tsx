@@ -362,7 +362,7 @@ export default function HomePageSections({
       </div>
 
       <Section
-        className="border-t border-border bg-background text-center"
+        className="zone-dark border-t border-border bg-background text-center"
         ariaLabelledby="bottom-cta-heading"
       >
         <Container>

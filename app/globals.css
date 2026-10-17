@@ -1934,6 +1934,79 @@ progress.studio-meter-flash::-moz-progress-bar {
   .footer-shell nav[aria-label="רשתות חברתיות"] a:hover { transform: none; }
 }
 
+/* ─── אזור כהה ומראה מטאלי (D135, דוגמה על עמוד הבית, 17.10.2026) ───
+   class אחד על המקטע, והוא מגדיר מחדש את הטוקנים בתוכו, כמו שהפוטר כבר עושה.
+   הרכיבים שבפנים לא משתנים: bg-surface, text-foreground, text-brand-red וכל השאר
+   מקבלים את ערכי הרקע הכהה. ניגודיות (WCAG, נמדד):
+   טקסט #E8EAED על #0F1419 15.36:1 · משני #B0B6BC 9.05:1 · כותרת #F5EFE0 16.14:1
+   זהב #C9A227 לטקסט ולטבעות 7.65:1 · ריחוף #E3C56B 10.99:1 · כרטיס #1A1F26.
+   זהב מול טקסט הגוף 2.01:1, ולכן הקו התחתון של קישורים בפסקה (למעלה) הכרחי גם כאן.
+   הכלל מחוץ ל-@layer, כדי לגבור על bg-background/40 וכדומה על המקטע עצמו. */
+.zone-dark {
+  --background: #0f1419;
+  --foreground: #f5efe0;
+  --card: #1a1f26;
+  --card-foreground: #f5efe0;
+  --muted: #1a1f26;
+  --muted-foreground: #b0b6bc;
+  --border: color-mix(in srgb, white 12%, transparent);
+  --color-border-subtle: color-mix(in srgb, white 7%, transparent);
+  --color-surface: #1a1f26;
+  --color-surface-elevated: #222830;
+  --color-brand-red: #c9a227;
+  --color-brand-red-light: #e3c56b;
+  --color-brand-red-dark: #e3c56b;
+  --color-brand-red-text: #e3c56b;
+  --color-catalog-gold: #c9a227;
+  --service-accent: #c9a227;
+  --service-accent-ink: #e3c56b;
+  --accent-ink-default: #e3c56b;
+  --hub-mesh: radial-gradient(ellipse 80% 60% at 78% 0%, rgba(201, 162, 39, 0.16), transparent 60%),
+    radial-gradient(ellipse 55% 45% at 12% 100%, rgba(227, 197, 107, 0.07), transparent 55%);
+  position: relative;
+  background-color: #0f1419;
+  color: #e8eaed;
+}
+
+/* קו זהב דק בראש ובתחתית האזור: המטאליות היא קו חד, לא טשטוש. סימטרי, ולכן נכון
+   גם ב-RTL. קישוט בלבד (pointer-events: none), לא תוכן. */
+.zone-dark::before,
+.zone-dark::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgb(227 197 107 / 0.7) 30%, #f0d98a 50%, rgb(227 197 107 / 0.7) 70%, transparent);
+  pointer-events: none;
+}
+.zone-dark::before {
+  top: 0;
+}
+.zone-dark::after {
+  bottom: 0;
+}
+
+/* כפתור המותג באזור כהה: זהב מטאלי. מעבר מזהב בהיר לעמוק, הברקה עליונה דקה וצל
+   תחתון. טקסט פחם: הנקודה הכהה במעבר (#A8841C) נותנת 5.27:1, הבהירה 13.22:1.
+   ~= רק המחלקה המדויקת bg-brand-red, לא גוונים כמו bg-brand-red/10. */
+.zone-dark :is(a, button)[class~="bg-brand-red"] {
+  color: #0f1419;
+  background-image: linear-gradient(180deg, #f0d98a 0%, #c9a227 48%, #a8841c 100%);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.5),
+    inset 0 -1px 0 rgb(0 0 0 / 0.2),
+    0 8px 22px -10px rgb(201 162 39 / 0.6);
+}
+.zone-dark :is(a, button)[class~="bg-brand-red"]:hover {
+  color: #0f1419;
+  background-image: linear-gradient(180deg, #f5e3a3 0%, #d4ae35 48%, #b8921f 100%);
+}
+
+/* כרטיס ומסגרת באזור כהה: קו זהב דק במקום צל, כי צל לא נראה על פחם */
+.zone-dark :is(.shadow-sm, .shadow-md, .shadow-lg) {
+  box-shadow: 0 0 0 1px rgb(201 162 39 / 0.18), 0 10px 30px -18px rgb(0 0 0 / 0.8);
+}
+
 /* ─── /book bento cards + mobile glass bar ─── */
 
 .book-service-card {
